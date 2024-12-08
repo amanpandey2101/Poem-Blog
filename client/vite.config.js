@@ -8,6 +8,7 @@ export default defineConfig({
       '/api': {
         target: 'https://poem-verse.onrender.com',
         secure: false,
+        changeOrigin: true,
       },
     },
   },
