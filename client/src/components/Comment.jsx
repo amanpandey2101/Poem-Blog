@@ -6,6 +6,9 @@ import { Button, Textarea } from 'flowbite-react';
 import { set } from 'mongoose';
 
 export default function Comment({ comment, onLike, onEdit, onDelete }) {
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
+
+
   const [user, setUser] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
@@ -13,7 +16,7 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await fetch(`/api/user/${comment.userId}`);
+        const res = await fetch(`${API_BASE_URL}/api/user/${comment.userId}`);
         const data = await res.json();
         if (res.ok) {
           setUser(data);
@@ -27,12 +30,12 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
 
   const handleEdit = () => {
     setIsEditing(true);
-    setEditedContent(comment.content);
+    setEditedContent(comment?.content);
   };
 
   const handleSave = async () => {
     try {
-      const res = await fetch(`/api/comment/editComment/${comment._id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/comment/editComment/${comment._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
